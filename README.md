@@ -28,6 +28,22 @@ Playground Hub는 실험 서비스 제작, 배포, 검수 기준을 관리하는
 6. 메인서비스 노출 여부는 메인서비스 코드에서 관리한다.
 7. 개인정보/AI/DB 사용 여부는 노출 전 반드시 확인한다.
 
+## 빠른 시작
+
+새로운 실험 서비스를 만들고 메인서비스에 노출하기까지의 흐름입니다. 비개발자/기획자도 따라할 수 있도록 단계별로 정리했습니다.
+
+1. **가이드 읽기** — [`docs/service-create-guide.md`](./docs/service-create-guide.md)에서 전체 절차를 먼저 확인합니다.
+2. **템플릿 선택** — [`templates/`](./templates) 안에서 만들고 싶은 서비스 유형에 맞는 폴더를 고릅니다.
+   - 한 페이지 안내 → `landing-service`
+   - AI 사용 → `ai-service`
+   - 결과형 테스트 → `quiz-service`
+   - 데이터 저장 도구 → `simple-crud-service`
+3. **새 private repo 생성** — `lab-{service-name}` 형식의 이름으로 GitHub **private repo**를 만들고, 위에서 고른 템플릿 폴더 내용을 복사합니다. 이름 규칙은 [`docs/service-create-guide.md`](./docs/service-create-guide.md#repo-이름-규칙) 참고.
+4. **Netlify / Vercel 배포** — 신규 실험 서비스는 [Netlify 우선](./docs/deployment-guide.md). 기존부터 Vercel로 운영 중인 핵심 Next.js만 Vercel을 유지합니다.
+5. **QA / 개인정보 체크** — [`checklists/qa-checklist.md`](./checklists/qa-checklist.md)와 [`checklists/privacy-checklist.md`](./checklists/privacy-checklist.md)를 모두 통과시킵니다.
+6. **메인서비스 노출 요청** — [`checklists/exposure-checklist.md`](./checklists/exposure-checklist.md) 통과 후, 메인서비스 repo의 `serviceLinks` 코드에 항목을 추가하도록 요청합니다.
+
+> 노출은 자동이 아닙니다. 배포가 끝나도 메인서비스에 자동으로 보이지 않으며, 항상 별도 단계로 요청합니다. 자세한 정책은 [`docs/exposure-policy.md`](./docs/exposure-policy.md)를 참고하세요.
 
 ## 프로젝트 구조
 ```

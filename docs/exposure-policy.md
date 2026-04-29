@@ -45,3 +45,41 @@ playground-hub에는 노출 목록을 두지 않습니다.
 | 실험 서비스 배포 | 실험 서비스 repo |
 | 실험 서비스의 가이드/체크리스트 | playground-hub |
 | 메인서비스 메뉴에 추가/제거 | **메인서비스 repo의 serviceLinks** |
+
+## 서비스 상태값
+
+각 실험 서비스는 다음 상태값 중 하나로 관리합니다. 상태값은 메인서비스 노출 여부를 판단하는 근거가 됩니다.
+
+| 상태 | 의미 | 메인서비스 노출 |
+| --- | --- | --- |
+| `sandbox` | 배포됨, 내부 테스트 중 | **기본 미노출** |
+| `beta` | 최소 검수 완료 | **선택 노출 가능** (일부 사용자 또는 별도 메뉴) |
+| `active` | 정식 노출 | 정식 노출 |
+| `paused` | 일시 중지 | 미노출 (이슈 해결 후 복귀 가능) |
+| `archived` | 종료 | 미노출 (다시 살리지 않음) |
+
+### 상태 전이 흐름
+
+```
+sandbox → beta → active
+                 ↓
+               paused → active
+                      ↓
+                   archived
+```
+
+### 상태 변경 시 해야 할 일
+
+| 변경 | 필요한 작업 |
+| --- | --- |
+| `sandbox → beta` | QA / 개인정보 체크리스트 통과 |
+| `beta → active` | [`exposure-checklist.md`](../checklists/exposure-checklist.md) 전체 통과, 메인서비스 `serviceLinks`에 추가 |
+| `active → paused` | 메인서비스 `serviceLinks`에서 제거 (코드/배포는 그대로 두어도 됨) |
+| `* → archived` | 도메인 / 배포 정리 여부 결정, 사용자 데이터 처리 방침 확인 |
+
+### 상태값을 어디에 적는가
+
+- 실험 서비스 repo의 `README.md` 상단에 한 줄로 명시 (예: `Status: sandbox`)
+- 상태가 바뀌면 README의 한 줄도 함께 업데이트
+
+> 상태값은 운영 합의를 위한 표시일 뿐, **노출 여부 자체는 항상 메인서비스 `serviceLinks`가 결정**합니다.
