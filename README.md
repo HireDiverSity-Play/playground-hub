@@ -30,7 +30,7 @@ Playground Hub는 실험 서비스 제작, 배포, 검수 기준을 관리하는
 
 
 ## 프로젝트 구조
-
+```
 playground-hub/
   README.md
 
@@ -52,3 +52,4 @@ playground-hub/
     exposure-checklist.md
     privacy-checklist.md
     qa-checklist.md
+```
