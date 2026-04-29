@@ -27,3 +27,28 @@ Playground Hub는 실험 서비스 제작, 배포, 검수 기준을 관리하는
 5. 배포 완료와 메인서비스 노출은 분리한다.
 6. 메인서비스 노출 여부는 메인서비스 코드에서 관리한다.
 7. 개인정보/AI/DB 사용 여부는 노출 전 반드시 확인한다.
+
+
+## 프로젝트 구조
+
+playground-hub/
+  README.md
+
+  docs/
+    service-create-guide.md
+    deployment-guide.md
+    exposure-policy.md
+    privacy-guide.md
+    db-selection-guide.md
+    qa-guide.md
+
+  templates/
+    landing-service/
+    ai-service/
+    quiz-service/
+    simple-crud-service/
+
+  checklists/
+    exposure-checklist.md
+    privacy-checklist.md
+    qa-checklist.md
