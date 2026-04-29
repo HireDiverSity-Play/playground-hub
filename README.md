@@ -33,6 +33,9 @@ Playground Hub는 실험 서비스 제작, 배포, 검수 기준을 관리하는
 ```
 playground-hub/
   README.md
+  CONTRIBUTING.md
+  .github/
+    PULL_REQUEST_TEMPLATE.md
 
   docs/
     service-create-guide.md
@@ -53,3 +56,7 @@ playground-hub/
     privacy-checklist.md
     qa-checklist.md
 ```
+
+## 기여하기
+
+이 저장소는 확인용 가벼운 repo입니다. 기여 방법, 브랜치/커밋 규칙, 리뷰 원칙은 [`CONTRIBUTING.md`](./CONTRIBUTING.md)를 참고하세요.
