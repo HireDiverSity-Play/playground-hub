@@ -1,2 +1,20 @@
-# playground-hub
-playground guide repo 
+# Playground Hub
+
+Playground Hub는 실험 서비스 제작, 배포, 검수, 메인 서비스 노출 관리를 위한 운영 저장소입니다.
+
+## 목적
+
+- 실험 서비스 생성 가이드 제공
+- 서비스 템플릿 관리
+- Netlify/Vercel 배포 기준 관리
+- 개인정보/QA 체크리스트 관리
+- 메인 서비스 노출 대상 관리
+
+## 운영 원칙
+
+1. 실험 서비스는 독립 repo로 생성한다.
+2. GitHub Actions는 기본 사용하지 않는다.
+3. 배포는 Netlify 또는 Vercel에서 처리한다.
+4. 배포 완료와 메인 서비스 노출은 분리한다.
+5. 메인 서비스에는 `visible: true`인 서비스만 노출한다.
+6. 개인정보/AI/DB 사용 여부는 등록 전 반드시 확인한다.
