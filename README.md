@@ -2,6 +2,8 @@
 
 Playground Hub는 실험 서비스 제작, 배포, 검수 기준을 관리하는 운영 저장소입니다.
 
+> **용어가 어려우면** [`docs/glossary.md`](./docs/glossary.md)를 먼저 보세요. Netlify, Supabase, RLS, OG 이미지 같은 자주 나오는 단어를 한 줄로 풀어 적었습니다.
+
 ## 이 저장소에서 관리하는 것
 
 - 실험 서비스 생성 가이드
@@ -102,6 +104,7 @@ playground-hub/
     privacy-guide.md
     db-selection-guide.md
     qa-guide.md
+    glossary.md
 
   templates/
     landing-service/
