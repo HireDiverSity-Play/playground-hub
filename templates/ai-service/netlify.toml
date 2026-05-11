@@ -1,0 +1,23 @@
+# Netlify 배포 설정.
+#
+# Next.js 15 App Router는 @netlify/plugin-nextjs가 자동 어댑트.
+# - serverless route handler → Netlify Functions
+# - 정적 자산 → CDN
+# - 환경변수 → Netlify 대시보드 (Site settings → Environment variables)
+#   * OPENAI_API_KEY 또는 GEMINI_API_KEY 둘 중 최소 1개 (lib/env.ts 참고)
+#   * AI_PROVIDER, RATE_LIMIT_PER_HOUR, *_MODEL은 선택
+#
+# 참고: https://docs.netlify.com/integrations/frameworks/next-js/
+
+[build]
+  command = "npm run build"
+  publish = ".next"
+
+[build.environment]
+  # Node.js 22 LTS (Next.js 15 권장).
+  NODE_VERSION = "22"
+
+# @netlify/plugin-nextjs는 Netlify가 Next.js 감지 시 자동 설치.
+# 명시적으로도 보장:
+[[plugins]]
+  package = "@netlify/plugin-nextjs"
