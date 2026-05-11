@@ -1,0 +1,27 @@
+/* Tailwind v4 — CSS-first config. tailwind.config.* 없이 @theme로 토큰 정의. */
+@import "tailwindcss";
+
+/* @theme 안의 변수는 Tailwind 유틸리티 클래스로 자동 노출.
+   예: --color-brand-500 → bg-brand-500, text-brand-500 등.
+   이 template은 최소 토큰만 — 서비스마다 색/폰트 추가하기. */
+@theme {
+  --color-brand-50: oklch(98% 0.01 250);
+  --color-brand-500: oklch(60% 0.18 250);
+  --color-brand-600: oklch(52% 0.20 250);
+  --color-brand-700: oklch(44% 0.18 250);
+
+  --font-sans: ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto,
+    'Helvetica Neue', 'Apple SD Gothic Neo', 'Noto Sans KR', sans-serif;
+}
+
+/* 한국어 폰트 friendly 베이스. */
+html {
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+}
+
+body {
+  /* 다크/라이트 분기는 prefers-color-scheme로 — 추가 필요 시 .dark 토글로 확장. */
+  background: white;
+  color: #0f172a;
+}
