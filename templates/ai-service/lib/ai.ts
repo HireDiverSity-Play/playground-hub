@@ -14,6 +14,34 @@ import { getEnv, resolveProvider } from './env';
 const DEFAULT_OPENAI_MODEL = 'gpt-4o-mini';
 const DEFAULT_GEMINI_MODEL = 'gemini-2.0-flash-001';
 
+/**
+ * AI 클라이언트 싱글톤 — streamText 호출마다 새 인스턴스를 만들지 않도록 globalThis에 캐싱.
+ *
+ * 이득:
+ *  - 객체 생성 오버헤드 제거 (SDK 내부에 fetch wrapper, 인증 헤더 등 초기화 비용 있음)
+ *  - Netlify/Vercel 서버리스의 warm 인스턴스에서 재사용 (cold start만 새로 만듦)
+ *  - Next.js dev HMR이 모듈을 재평가해도 globalThis는 유지 → 안전
+ *
+ * API 키가 바뀌면 process.env가 바뀌어도 캐시된 클라이언트는 옛 키를 들고 있음 — 일반적으로
+ * 키 회전은 재배포(=새 프로세스)와 함께라 문제 없음. 운영자가 키 즉시 회전이 필요하면 재배포.
+ */
+const globalForAi = globalThis as unknown as {
+  __openaiClient?: OpenAI;
+  __geminiClient?: GoogleGenAI;
+};
+
+function getOpenAIClient(apiKey: string): OpenAI {
+  if (globalForAi.__openaiClient) return globalForAi.__openaiClient;
+  globalForAi.__openaiClient = new OpenAI({ apiKey });
+  return globalForAi.__openaiClient;
+}
+
+function getGeminiClient(apiKey: string): GoogleGenAI {
+  if (globalForAi.__geminiClient) return globalForAi.__geminiClient;
+  globalForAi.__geminiClient = new GoogleGenAI({ apiKey });
+  return globalForAi.__geminiClient;
+}
+
 export interface StreamTextOptions {
   /** 시스템 프롬프트 — 모델의 역할/제약 설정. 비워도 됨. */
   system?: string;
@@ -36,7 +64,7 @@ export async function* streamText(opts: StreamTextOptions): AsyncIterable<string
   const provider = resolveProvider(env);
 
   if (provider === 'openai') {
-    const client = new OpenAI({ apiKey: env.OPENAI_API_KEY! });
+    const client = getOpenAIClient(env.OPENAI_API_KEY!);
     const stream = await client.chat.completions.create(
       {
         model: env.OPENAI_MODEL ?? DEFAULT_OPENAI_MODEL,
@@ -58,7 +86,7 @@ export async function* streamText(opts: StreamTextOptions): AsyncIterable<string
   }
 
   // Gemini
-  const client = new GoogleGenAI({ apiKey: env.GEMINI_API_KEY! });
+  const client = getGeminiClient(env.GEMINI_API_KEY!);
   const response = await client.models.generateContentStream({
     model: env.GEMINI_MODEL ?? DEFAULT_GEMINI_MODEL,
     contents: opts.prompt,

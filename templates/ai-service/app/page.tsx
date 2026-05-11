@@ -47,7 +47,13 @@ export default function Home() {
       const decoder = new TextDecoder();
       for (;;) {
         const { value, done } = await reader.read();
-        if (done) break;
+        if (done) {
+          // 한글 등 멀티바이트 문자가 청크 경계에서 잘렸을 때 internal 버퍼에 남은 잔여를 flush.
+          // stream:false (default)로 빈 입력에 대해 호출하면 버퍼 비움.
+          const tail = decoder.decode();
+          if (tail) setResult((prev) => prev + tail);
+          break;
+        }
         setResult((prev) => prev + decoder.decode(value, { stream: true }));
       }
     } catch (err) {
